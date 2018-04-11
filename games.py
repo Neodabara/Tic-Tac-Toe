@@ -74,6 +74,10 @@ def alphabeta_search(state, game):
     best_score = -infinity
     beta = infinity
     best_action = None
+
+    # Randomize the moves to choose from
+    random.shuffle(state.moves)
+
     for a in game.actions(state):
         v = min_value(game.result(state, a), best_score, beta)
         if v > best_score:
@@ -240,7 +244,7 @@ class Fig52Game(Game):
 class Fig52Extended(Game):
     """Similar to Fig52Game but bigger. Useful for visualisation"""
 
-    succs = {i:dict(l=i*3+1, m=i*3+2, r=i*3+3) for i in range(13)}
+    succs = {i: dict(l=i*3+1, m=i*3+2, r=i*3+3) for i in range(13)}
     utils = dict()
 
     def actions(self, state):
@@ -260,6 +264,7 @@ class Fig52Extended(Game):
 
     def to_move(self, state):
         return 'MIN' if state in {1, 2, 3} else 'MAX'
+
 
 class TicTacToe(Game):
     """Play TicTacToe on an h x v board, with Max (first player) playing 'X'.
@@ -287,7 +292,8 @@ class TicTacToe(Game):
         moves = list(state.moves)
         moves.remove(move)
         return GameState(to_move=('O' if state.to_move == 'X' else 'X'),
-                         utility=self.compute_utility(board, move, state.to_move),
+                         utility=self.compute_utility(
+                             board, move, state.to_move),
                          board=board, moves=moves)
 
     def utility(self, state, player):

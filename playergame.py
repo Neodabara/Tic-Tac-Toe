@@ -6,6 +6,8 @@ import random
 '''
 
 # play a game of TicTacToe
+
+
 def play_ttt(game):
 
     # The initial state is a blank board
@@ -16,41 +18,38 @@ def play_ttt(game):
 
     while True:
         turn = firstMove()
-        print ('The' + turn + 'goes first')
+        print('The ' + turn + ' goes first')
         gameInProgress = True
 
         while gameInProgress:
-            # Player turn 
-            if turn == 'Player': 
-                game.display(state)
-                games.query_player(game,state)
-                print ('The ' + turn + ' made a move')
+            # Player turn
+            if turn == 'Player':
+                move = games.query_player(game, state)
+                print('The ' + turn + ' made a move')
 
-                #update the game state
-                state = game.result(state,move)
-                game.display(state)
+                # update the game state
+                state = game.result(state, move)
+                # game.display(state)
                # print()
                 turn = 'Computer'
 
             # Computer turn
             else:
                 move = games.alphabeta_player(game,state)
-                print ('The ' + turn + ' made a move')
+                print('The ' + turn + ' made a move')
 
-                #update the game state
-                state = game.result(state,move)
-                game.display(state)
-                print()
+                # update the game state
+                state = game.result(state, move)
+                # game.display(state)
                 turn = 'Player'
-
-
-        
-
-
-
-
+            
+            if game.terminal_test(state):
+                game.display(state)
+                return
 
 # decide who goes first
+
+
 def firstMove():
     if random.randint(0, 1) == 0:
         return 'Computer'
